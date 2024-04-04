@@ -20,6 +20,7 @@ export interface Author {
   affiliations: string[]
   articles: { scopusId: number, title: string }[]
   topics: string []
+  email?: string | "No email" // Optional property with fallback value "No email"
 }
 
 export interface Coauthors {

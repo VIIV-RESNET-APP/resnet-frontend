@@ -50,13 +50,32 @@ export class CoauthorsGraphComponent {
 
   setupNodes() {
     this.apiNodes.forEach(node => {
-      this.d3Nodes.push(new Node(node.scopusId, this.apiNodes.length, node.initials, {
+      this.d3Nodes.push(new Node(node.scopusId, this.apiNodes.length, this.truncarCadena(node.firstName) + " " + this.truncarCadena(node.lastName), {
         enablePopover: true,
         title: 'Autor',
         content: node.firstName && node.lastName ? `${node.firstName} ${node.lastName}` : node.lastName || '',
         link: 'author/' + node.scopusId
       }))
     })
+  }
+
+  truncarCadena(texto: string): string {
+    const indiceEspacio = texto.indexOf(' ');
+    const indiceGuion = texto.indexOf('-');
+    // Verifica si hay espacio y guion
+    if (indiceEspacio !== -1 && indiceGuion !== -1) {
+      // Corta en el primero que aparezca
+      return texto.substring(0, Math.min(indiceEspacio, indiceGuion));
+    } else if (indiceEspacio !== -1) {
+      // Si hay solo espacio
+      return texto.substring(0, indiceEspacio);
+    } else if (indiceGuion !== -1) {
+      // Si hay solo guion
+      return texto.substring(0, indiceGuion);
+    } else {
+      // Si no hay ni espacio ni guion, devuelve la cadena original
+      return texto;
+    }
   }
 
   setupLinks(links: { source: number, target: number, collabStrength: number }[]) {

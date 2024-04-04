@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://resnet-backend.azurewebsites.net/',
+  apiUrl: 'http://172.28.36.25:5000/',
 };

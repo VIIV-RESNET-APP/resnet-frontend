@@ -31,6 +31,7 @@ export class AuthorProfileComponent {
     const {author} = this.activatedRoute.snapshot.data
     if (!author) return;
     this.author = {...author}
+    if(this.author.email === "0") this.author.email = "Email no disponible";
   }
 
   openModal(content: any, articleId: number) {
