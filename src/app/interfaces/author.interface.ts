@@ -21,6 +21,7 @@ export interface Author {
   articles: { scopusId: number, title: string }[]
   topics: string []
   email?: string | "No email" // Optional property with fallback value "No email"
+  rol: string
 }
 
 export interface Coauthors {
