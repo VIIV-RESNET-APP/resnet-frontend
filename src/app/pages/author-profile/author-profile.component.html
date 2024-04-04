@@ -20,12 +20,24 @@
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Nombre de autor</h6>
         <h6 class="text">{{author.authName}}</h6>
+        <strong class="d-inline-block" >
+          <div class="d-inline-block rounded-pill p-3" [ngStyle]="{'background-color': esDocente ? 'green' : '#AAA'}">
+          <h6 class=" label">Rol:</h6>
+          <h6 class="d-inline-block text">{{author.rol || "XD" }} </h6>
+        </div>
+        <div class="d-inline-block" [ngStyle]="{'background-color': esDocente ? 'green' : 'red'}">
+
+        </div>
+
+        </strong>
       </div>
+
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Iniciales</h6>
         <h6 class="text">{{author.initials}}</h6>
         <h6 class="label">Email</h6>
         <h6 class="text">{{author.email || "No mail"}} </h6>
+
       </div>
     </div>
 

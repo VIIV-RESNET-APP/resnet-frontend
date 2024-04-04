@@ -16,6 +16,7 @@ export class AuthorProfileComponent {
 
   author!: Author
   article!: Article
+  esDocente: boolean;
 
   showCoauthorsGraph: boolean = false
 
@@ -32,6 +33,7 @@ export class AuthorProfileComponent {
     if (!author) return;
     this.author = {...author}
     if(this.author.email === "0") this.author.email = "Email no disponible";
+    this.esDocente = this.author.rol === "docente";
   }
 
   openModal(content: any, articleId: number) {
