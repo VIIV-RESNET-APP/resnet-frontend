@@ -45,6 +45,7 @@ export class MostRelevantArticlesTableComponent {
         }),
         switchMap(({page, size, type, years}) => {
             if (type) {
+              console.log(years)
               return this.articleService.getMostRelevantArticlesByQuery(this.query, page, size, type, years)
             } else {
               return this.articleService.getMostRelevantArticlesByQuery(this.query, page, size)
@@ -52,12 +53,13 @@ export class MostRelevantArticlesTableComponent {
           }
         ),
         tap((articles) => {
+          console.log()
           this.loading.emit(false)
           if (this.setYears) {
             this.years = []
             this.selectedYears = []
             this.selectedType = ''
-            this.years = articles.years
+            this.years = articles.years.sort((a,b) => b-a)
           }
         })
       )
