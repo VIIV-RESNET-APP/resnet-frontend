@@ -15,6 +15,7 @@ export class AuthorService {
   }
 
   getAuthorsByQuery(query: string, page: number, size: number): Observable<PaginationAuthorResult> {
+    console.log(query)
     return this.http.get<PaginationAuthorResult>(`${this.rootURL}authors/get-authors-by-query?query=${query}&page=${page}&size=${size}`)
       .pipe(map((response) => {
         let mappedData = response.data.map((author) => {
