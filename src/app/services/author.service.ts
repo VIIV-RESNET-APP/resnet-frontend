@@ -1,67 +1,86 @@
-import {Injectable} from '@angular/core';
-import {Author, AuthorResult, Coauthors, PaginationAuthorResult, RandItem} from "../interfaces/author.interface";
-import {map, Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import { Injectable } from '@angular/core';
+import {
+  Author,
+  AuthorResult,
+  Coauthors,
+  PaginationAuthorResult,
+  RandItem,
+} from '../interfaces/author.interface';
+import { map, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthorService {
+  rootURL: string = environment.apiUrl;
 
-  rootURL: string = environment.apiUrl
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-  }
-
-  getAuthorsByQuery(query: string, page: number, size: number): Observable<PaginationAuthorResult> {
-    console.log(query)
-    return this.http.get<PaginationAuthorResult>(`${this.rootURL}authors/get-authors-by-query?query=${query}&page=${page}&size=${size}`)
-      .pipe(map((response) => {
-        let mappedData = response.data.map((author) => {
-          return this.mapAuthorTopics(author)
+  getAuthorsByQuery(
+    query: string,
+    page: number,
+    size: number
+  ): Observable<PaginationAuthorResult> {
+    return this.http
+      .get<PaginationAuthorResult>(
+        `${this.rootURL}authors/get-authors-by-query?query=${query}&page=${page}&size=${size}`
+      )
+      .pipe(
+        map((response) => {
+          let mappedData = response.data.map((author) => {
+            return this.mapAuthorTopics(author);
+          });
+          return { data: mappedData, total: response.total };
         })
-        return {data: mappedData, total: response.total}
-      }))
+      );
   }
 
   getAuthorById(id: number): Observable<Author> {
-    return this.http.get<Author>(`${this.rootURL}author/${id}`)
+    return this.http.get<Author>(`${this.rootURL}author/${id}`);
   }
 
   getCoauthorsById(id: number): Observable<Coauthors> {
-    return this.http.get<Coauthors>(`${this.rootURL}coauthors/${id}`)
+    return this.http.get<Coauthors>(`${this.rootURL}coauthors/${id}`);
   }
 
-  getMostRelevantAuthors(topic: string, authorsNumber: number, typeFilter?: string, affiliations?: number[]): Observable<Coauthors> {
+  getMostRelevantAuthors(
+    topic: string,
+    authorsNumber: number,
+    typeFilter?: string,
+    affiliations?: number[]
+  ): Observable<Coauthors> {
     let bodyParams: any = {
       topic: topic,
       authorsNumber: authorsNumber,
-    }
+    };
 
     if (typeFilter) {
-      bodyParams['type'] = typeFilter
-      bodyParams['affiliations'] = affiliations
+      bodyParams['type'] = typeFilter;
+      bodyParams['affiliations'] = affiliations;
     }
 
-    return this.http.post<Coauthors>(`${this.rootURL}coauthors/most-relevant-authors`, bodyParams)
+    let data = this.http.post<Coauthors>(
+      `${this.rootURL}coauthors/most-relevant-authors`,
+      bodyParams
+    );
+    return data;
   }
-
 
   mapAuthorTopics(author: AuthorResult) {
     if (author.topics.length > 10) {
-      author.topics = author.topics.splice(0, 10)
-      author.topics.push('...')
+      author.topics = author.topics.splice(0, 10);
+      author.topics.push('...');
     }
-    return author
+    return author;
   }
 
   getRandomAuthors(): Observable<RandItem[]> {
-    return this.http.get<RandItem[]>(`${this.rootURL}random-authors`)
+    return this.http.get<RandItem[]>(`${this.rootURL}random-authors`);
   }
 
   getRandomTopics(): Observable<RandItem[]> {
-    return this.http.get<RandItem[]>(`${this.rootURL}random-topics`)
+    return this.http.get<RandItem[]>(`${this.rootURL}random-topics`);
   }
-
 }

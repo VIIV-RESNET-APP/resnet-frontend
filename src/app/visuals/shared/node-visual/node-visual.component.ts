@@ -12,6 +12,7 @@ import {NgbPopover} from "@ng-bootstrap/ng-bootstrap";
         <b>Nombre:</b> {{node.popover.content}}
       </a>
       <div><b>Grado:</b> {{node.degree}}</div>
+      <div><b>Rol:</b> {{node.rol=="0" ? "Sin Ron" :node.rol}}</div>
       <ng-container *ngIf="node.weight"><b>Relevancia:</b> {{node.weight}}</ng-container>
       <ng-template #elseLink>{{node.popover.content}}</ng-template>
     </ng-template>
@@ -46,7 +47,7 @@ export class NodeVisualComponent {
   }
 
   togglePopover(popover: NgbPopover) {
-    console.log(this.node)
+
     if (this.node.popover.enablePopover) {
       if (popover.isOpen()) {
         popover.close();

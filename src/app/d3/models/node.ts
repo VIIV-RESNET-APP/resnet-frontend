@@ -17,15 +17,16 @@ export class Node implements d3.SimulationNodeDatum {
   label: string
 
   weight?: number
-
+  rol?: string
   popover: PopoverNode
 
-  constructor(id: string | number, totalNodes: number, label: string, popover: PopoverNode, weight?: number) {
+  constructor(id: string | number, totalNodes: number, label: string, popover: PopoverNode, weight?: number,rol?:string ) {
     this.id = id;
     this.totalNodes = totalNodes
     this.label = label
     this.popover = popover
     this.weight = weight
+    this.rol = rol
   }
 
   normal = () => {

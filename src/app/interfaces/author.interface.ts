@@ -4,6 +4,7 @@ export interface AuthorResult {
   affiliations: string[]
   articles: number
   topics: string[]
+  rol:string | "No role"
 }
 
 export interface PaginationAuthorResult {
@@ -37,6 +38,7 @@ export interface AuthorNode {
   firstName: string
   lastName: string
   weight: number
+  rol?:string
 }
 
 export interface RandItem{

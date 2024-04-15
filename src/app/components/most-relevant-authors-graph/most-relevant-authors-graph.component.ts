@@ -103,7 +103,7 @@ export class MostRelevantAuthorsGraphComponent {
         title: 'Autor',
         content: node.firstName + " " + node.lastName,
         link: 'author/' + node.scopusId
-      }, this.apiNodes.length - index)
+      }, this.apiNodes.length - index, node.rol )
     })
   }
 truncarCadena(texto: string): string {

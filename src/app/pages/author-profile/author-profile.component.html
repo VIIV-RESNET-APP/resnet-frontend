@@ -1,74 +1,78 @@
 <div class="container-lg d-flex flex-column py-5">
-
   <!--#region General Information-->
   <div class="d-flex flex-column mb-5 pb-3">
     <h2>Información general</h2>
-    <hr>
+    <hr />
 
     <div class="row">
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Nombre</h6>
-        <h6 class="text">{{author.firstName}}</h6>
+        <h6 class="text">{{ author.firstName }}</h6>
       </div>
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Apellido</h6>
-        <h6 class="text">{{author.lastName}}</h6>
+        <h6 class="text">{{ author.lastName }}</h6>
       </div>
     </div>
 
     <div class="row">
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Nombre de autor</h6>
-        <h6 class="text">{{author.authName}}</h6>
-        <strong class="d-inline-block" >
-          <div class="d-inline-block rounded-pill p-3" [ngStyle]="{'background-color': esDocente ? 'green' : '#AAA'}">
-          <h6 class=" label">Rol:</h6>
-          <h6 class="d-inline-block text">{{author.rol || "XD" }} </h6>
-        </div>
-        <div class="d-inline-block" [ngStyle]="{'background-color': esDocente ? 'green' : 'red'}">
-
-        </div>
-
-        </strong>
+        <h6 class="text">{{ author.authName }}</h6>
       </div>
 
       <div class="col d-flex flex-column mb-3">
         <h6 class="label">Iniciales</h6>
-        <h6 class="text">{{author.initials}}</h6>
-        <h6 class="label">Email</h6>
-        <h6 class="text">{{author.email || "No mail"}} </h6>
+        <h6 class="text">{{ author.initials }}</h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-column mb-3">
+        <h6 class="label">Rol:</h6>
+        <h6 class="d-inline-block text">{{ author.rol || "Sin rol" }}</h6>
+      </div>
 
+      <div class="col d-flex flex-column mb-3">
+        <h6 class="label">Email</h6>
+        <h6 class="text">{{ author.email || "No mail" }}</h6>
       </div>
     </div>
 
     <div class="row mb-3">
-      <div class="col d-flex flex-column ">
+      <div class="col d-flex flex-column">
         <h6 class="label">Afiliaciones</h6>
         <ul>
           <li *ngFor="let affiliation of author.affiliations" class="text">
-            {{affiliation}}
+            {{ affiliation }}
           </li>
         </ul>
       </div>
     </div>
 
     <div class="d-flex justify-content-end">
-      <a class="scopus-profile" href="https://www.scopus.com/authid/detail.uri?authorId={{author.scopusId}}">
+      <a
+        class="scopus-profile"
+        href="https://www.scopus.com/authid/detail.uri?authorId={{
+          author.scopusId
+        }}"
+      >
         Perfil de Scopus
       </a>
     </div>
-
-
   </div>
   <!--#endregion-->
 
   <!--#region Articles-->
   <div class="d-flex flex-column mb-5 pb-3">
     <h2>Artículos</h2>
-    <hr>
+    <hr />
     <ul class="articles-container">
-      <li *ngFor="let article of author.articles" class="text mb-6" (click)="openModal(content, article.scopusId)">
-        {{article.title}}
+      <li
+        *ngFor="let article of author.articles"
+        class="text mb-6"
+        (click)="openModal(content, article.scopusId)"
+      >
+        {{ article.title }}
       </li>
     </ul>
   </div>
@@ -77,14 +81,18 @@
   <!--#region Topics-->
   <div class="d-flex flex-column mb-5 pb-3">
     <h2>Tópicos</h2>
-    <hr>
-    <div class="d-flex flex-wrap gap-5 topics-container justify-content-between">
-      <span *ngFor="let topic of author.topics, index as i" class="badge text-bg-secondary topic"
-            [ngStyle]="{'font-size':getTopicFontSize(author.topics.length - i)}">
-        <a [href]="'/home?option=mrau&query='+topic">{{topic}}</a>
+    <hr />
+    <div
+      class="d-flex flex-wrap gap-5 topics-container justify-content-between"
+    >
+      <span
+        *ngFor="let topic of author.topics; index as i"
+        class="badge text-bg-secondary topic"
+        [ngStyle]="{ 'font-size': getTopicFontSize(author.topics.length - i) }"
+      >
+        <a [href]="'/home?option=mrau&query=' + topic">{{ topic }}</a>
       </span>
     </div>
-
   </div>
   <!--#endregion-->
 
@@ -92,56 +100,71 @@
   <div class="d-flex flex-column">
     <div class="d-flex flex-nowrap align-items-center gap-3">
       <h2>Coautores</h2>
-      <fa-icon [icon]="faCircleInfo" placement="right" ngbTooltip="El grafo es arrastrable y ampliable. Los nodos y aristas son arrastrables y clicables"></fa-icon>
+      <fa-icon
+        [icon]="faCircleInfo"
+        placement="right"
+        ngbTooltip="El grafo es arrastrable y ampliable. Los nodos y aristas son arrastrables y clicables"
+      ></fa-icon>
     </div>
-    <hr>
+    <hr />
     <ng-container *ngIf="showCoauthorsGraph; else elseCoauthorsGraph">
       <app-coauthors-graph [author]="author"></app-coauthors-graph>
     </ng-container>
     <ng-template #elseCoauthorsGraph>
       <div class="d-flex justify-content-center py-5">
-        <button type="button" class="btn btn-primary btn-lg" (click)="showCoauthorsGraph=true">Visualizar grafo</button>
+        <button
+          type="button"
+          class="btn btn-primary btn-lg"
+          (click)="showCoauthorsGraph = true"
+        >
+          Visualizar grafo
+        </button>
       </div>
     </ng-template>
   </div>
   <!--#endregion-->
-
-
 </div>
 
 <!--#region Article Modal-->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4>Detalles del artículo</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
     <div class="d-flex flex-column gap-3 p-3">
       <div *ngIf="article.doi">
         <h6 class="label-modal">DOI</h6>
-        <h6 class="text-modal">{{article.doi}}</h6>
+        <h6 class="text-modal">{{ article.doi }}</h6>
       </div>
 
       <div>
         <h6 class="label-modal">Título</h6>
-        <h6 class="text-modal">{{article.title}}</h6>
+        <h6 class="text-modal">{{ article.title }}</h6>
       </div>
 
       <div *ngIf="article.abstract">
         <h6 class="label-modal">Abstract</h6>
-        <h6 class="text-modal text-justify">{{article.abstract}}</h6>
+        <h6 class="text-modal text-justify">{{ article.abstract }}</h6>
       </div>
 
       <div *ngIf="article.publicationDate">
         <h6 class="label-modal">Fecha de publicación</h6>
-        <h6 class="text-modal text-justify">{{article.publicationDate}}</h6>
+        <h6 class="text-modal text-justify">{{ article.publicationDate }}</h6>
       </div>
 
       <div>
         <h6 class="label-modal">Autores</h6>
         <ul>
           <li *ngFor="let author of article.authors" class="text-modal">
-            <a class="author-modal" href="/author/{{author.scopusId}}">{{author.name}}</a>
+            <a class="author-modal" href="/author/{{ author.scopusId }}">{{
+              author.name
+            }}</a>
           </li>
         </ul>
       </div>
@@ -149,8 +172,11 @@
       <div>
         <h6 class="label-modal">Afiliaciones</h6>
         <ul>
-          <li *ngFor="let affiliation of article.affiliations" class="text-modal">
-            {{affiliation}}
+          <li
+            *ngFor="let affiliation of article.affiliations"
+            class="text-modal"
+          >
+            {{ affiliation }}
           </li>
         </ul>
       </div>
@@ -159,13 +185,11 @@
         <h6 class="label-modal">Tópicos</h6>
         <ul>
           <li *ngFor="let topic of article.topics" class="text-modal">
-            {{topic}}
+            {{ topic }}
           </li>
         </ul>
       </div>
-
     </div>
   </div>
-
 </ng-template>
 <!--#endregion-->
